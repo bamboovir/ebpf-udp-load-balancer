@@ -107,23 +107,13 @@ Setting local testing network namespace.
 ```bash
 # enabling ipv4 ip forwarding
 sysctl -w net.ipv4.ip_forward=1
-# enabling the dummy kernel module
-sudo modprobe dummy
 # create network namespace
 sudo ip netns add testns
 sudo ip netns list
 # use local lo interface for testing
 sudo ip netns exec testns ip link set lo up
-# create dummy network interface
-sudo ip netns exec testns ip link add dummy type dummy
-sudo ip netns exec testns ip link show dummy
-# assign the CIDR to dummy interface
-sudo ip netns exec testns ip addr add 192.168.1.1/24 dev dummy
-sudo ip netns exec testns ip link set dummy up
 # create shell in test network namespace
 sudo ip netns exec testns sudo su $USER -
-# delete dummy network interface
-sudo ip netns exec testns ip link delete dummy type dummy
 # delete test network namespace
 sudo ip netns delete testns
 ```
@@ -183,19 +173,6 @@ Start multiple upstream udp server
 sudo ip netns exec testns sudo su $USER -
 # start multiple udp server upstream
 ./bin/multi-udp-server -ports '8080,8081,8082'
-```
-
-Send udp packet via nc to source port.
-
-```bash
-echo "ping" | nc -u 127.0.0.1 8000
-echo "ping" | nc -u 127.0.0.1 8000
-echo "ping" | nc -u 127.0.0.1 8000
-echo "ping" | nc -u 127.0.0.1 8000
-echo "ping" | nc -u 127.0.0.1 8000
-echo "ping" | nc -u 127.0.0.1 8000
-echo "ping" | nc -u 127.0.0.1 8000
-echo "ping" | nc -u 127.0.0.1 8000
 ```
 
 ebpf_loadbalancer log
