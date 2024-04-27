@@ -1,0 +1,2 @@
+[workspace]
+members = ["xtask", "ebpf-loadbalancer", "ebpf-loadbalancer-common"]
